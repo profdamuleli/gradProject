@@ -55,7 +55,9 @@ public class InvestorServiceImpl implements InvestorService {
 
     @Override
     public List<Product> retrieveProductsById(Long investorId){
-        return null;
+        return investorRepository.findById(investorId)
+                .get()
+                .getProducts();
     }
 
 
