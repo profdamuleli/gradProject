@@ -1,0 +1,35 @@
+server:
+  port: 8091
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:investmentdb
+    driverClassName: org.h2.Driver
+    username: ${username}
+    password: ${passwrd}
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console.enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: lutendo.damuleli.f@gmail.com
+    password: owigcdtctoxgfbzn
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
