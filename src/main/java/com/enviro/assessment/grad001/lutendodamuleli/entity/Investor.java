@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -19,9 +20,12 @@ public class Investor {
     private Long id;
     private String firstname;
     private String lastname;
+    private LocalDate birth_date;
     private String idNo;
     private Integer acctNo;
     private String physicalAddr;
     private String cellNo;
     private String emailAddr;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Product> products;
 }

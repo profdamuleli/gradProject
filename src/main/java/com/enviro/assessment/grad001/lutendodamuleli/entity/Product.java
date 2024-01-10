@@ -14,15 +14,11 @@ import lombok.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(value = {View.Base.class})
+   // @JsonView(value = {View.Base.class})
     private Long productId;
     @Enumerated(EnumType.ORDINAL)
-    @JsonView(value = {View.Base.class})
     private ProductType type;
-    @JsonView(value = {View.Base.class})
     private String name;
-    @JsonView(value = {View.Base.class})
     private Double currentBalance;
-    @JsonView(value = {View.Base.class})
     private Double previousBalance;
 }

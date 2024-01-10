@@ -56,7 +56,6 @@ public class InvestorServiceImpl implements InvestorService {
     @Override
     public void saveInvestor(Investor investor) {
         investorRepository.save(investor);
-
     }
 
     @Override
@@ -72,14 +71,14 @@ public class InvestorServiceImpl implements InvestorService {
                     for (Product product : products) {
                         if (product.getType().equals(productType)) {
                             if (product.getType().equals(ProductType.RETIREMENT)) {
-                                if ((calculateAge(investor.getPersonal().getBirth_date(), LocalDate.now()))
+                                if ((calculateAge(investor.getBirth_date(), LocalDate.now()))
                                         && request.getWithdrawalAmount() < product.getCurrentBalance()
                                         && (allowedPercentageToWithdraw(request, product))) {
                                     //TODO: create a withdrawal notification for retirement and the status should be in-progress
 
                                     request.setProductType(ProductType.RETIREMENT);
                                     request.setWithdrawalDate(LocalDate.now());
-                                    investor.getWithdrawalRequest().add(request);
+                                    //investor.getWithdrawalRequest().add(request);
 
                                     WithdrawalNotice withdrawalNotice = withdrawal_notice(product, request);
 
@@ -109,7 +108,7 @@ public class InvestorServiceImpl implements InvestorService {
                                 //TODO: create a withdrawal notification for savings in-progress
                                 request.setProductType(ProductType.SAVINGS);
                                 request.setWithdrawalDate(LocalDate.now());
-                                investor.getWithdrawalRequest().add(request);
+                                //investor.getWithdrawalRequest().add(request);
 
                                 WithdrawalNotice withdrawalNotice = withdrawal_notice(product, request);
 
@@ -163,7 +162,7 @@ public class InvestorServiceImpl implements InvestorService {
     public List<WithdrawalRequest> retrieveWithdrawalsById(Long investorId,
                                                            ProductType productType){
         Investor investor = retrieveInvestorById(investorId);
-        return investor.getWithdrawalRequest();
+        return null;//investor.getWithdrawalRequest();
     }
 
     @Override
@@ -193,7 +192,7 @@ public class InvestorServiceImpl implements InvestorService {
         List<WithdrawalRequest> withdrawalRequestList = new ArrayList<>();
         if (investorRepository.existsById(investorId)) {
             Investor investor = retrieveInvestorById(investorId);
-            List<WithdrawalRequest> requestList = investor.getWithdrawalRequest();
+            List<WithdrawalRequest> requestList = withdrawalRequestList/*investor.getWithdrawalRequest()*/;
 
             if(productType.equals(ProductType.RETIREMENT)){
                 for(WithdrawalRequest request : requestList){
@@ -227,8 +226,6 @@ public class InvestorServiceImpl implements InvestorService {
             return true;
         return false;
     }
-
-
 
 /*
 

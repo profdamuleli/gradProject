@@ -5,8 +5,8 @@ spring:
   datasource:
     url: jdbc:h2:mem:investmentdb
     driverClassName: org.h2.Driver
-    username: ${username}
-    password: ${passwrd}
+    username: ldamuleli #${username}
+    password: Lodav72# #${passwrd}
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true

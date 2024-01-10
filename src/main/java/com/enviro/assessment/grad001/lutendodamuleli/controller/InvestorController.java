@@ -38,7 +38,7 @@ public class InvestorController {
         investorService.saveInvestor(investor);
     }
 
-    @Operation(summary = "retrieve all investor records in the database")
+    /*@Operation(summary = "retrieve all investor records in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "404", description = "No investors inside the database")
@@ -114,5 +114,5 @@ public class InvestorController {
     public void downloadStatement(@PathVariable Long investorId,
                            @PathVariable ProductType productType, HttpServletResponse response) throws Exception{
         investorService.getAllWithdrawalsById(investorId, productType, response);
-    }
+    }*/
 }
