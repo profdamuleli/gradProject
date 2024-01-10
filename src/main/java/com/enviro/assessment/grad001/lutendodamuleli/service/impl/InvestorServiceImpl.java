@@ -54,6 +54,12 @@ public class InvestorServiceImpl implements InvestorService {
     }
 
     @Override
+    public List<Product> retrieveProductsById(Long investorId){
+        return null;
+    }
+
+
+    @Override
     public void saveInvestor(Investor investor) {
         investorRepository.save(investor);
     }
@@ -170,7 +176,8 @@ public class InvestorServiceImpl implements InvestorService {
         List<Investor> investorList = investorRepository.findAll();
         if(investorList.isEmpty())
             throw new InvestorNotFoundException("No investors available");
-        return investorList;    }
+        return investorList;
+    }
 
     @Override
     public void getAllWithdrawalsById(Long investorId,ProductType productType, HttpServletResponse response)

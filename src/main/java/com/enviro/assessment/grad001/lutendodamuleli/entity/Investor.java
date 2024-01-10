@@ -27,5 +27,6 @@ public class Investor {
     private String cellNo;
     private String emailAddr;
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name= "fk_invest_id", referencedColumnName = "id")
     private List<Product> products;
 }

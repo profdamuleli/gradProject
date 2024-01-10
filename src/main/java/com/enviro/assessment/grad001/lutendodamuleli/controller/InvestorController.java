@@ -38,19 +38,6 @@ public class InvestorController {
         investorService.saveInvestor(investor);
     }
 
-    /*@Operation(summary = "retrieve all investor records in the database")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "No investors inside the database")
-    })
-    @GetMapping(value = "/investors", produces = "application/json")
-    @JsonView(value = {View.Base.class})
-    public ResponseEntity<List<Investor>> getAllInvestors(){
-        return ResponseEntity.ok(
-                investorService.retrieveAllInvestors()
-        );
-    }
-
     @Operation(summary = "retrieve a specific investor record in the db by investorId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -59,9 +46,20 @@ public class InvestorController {
 
     })
     @GetMapping(value = "/investors/{investorId}", produces = "application/json")
-    @JsonView(value = {View.Base.class})
-    public ResponseEntity<Investor> createInvestor(@PathVariable Long investorId){
+    public ResponseEntity<Investor> retriveInvestorById(@PathVariable Long investorId){
         return ResponseEntity.ok(investorService.retrieveInvestorById(investorId));
+    }
+
+    @Operation(summary = "retrieve all investor records in the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "No investors inside the database")
+    })
+    @GetMapping(value = "/investors", produces = "application/json")
+    public ResponseEntity<List<Investor>> getAllInvestors(){
+        return ResponseEntity.ok(
+                investorService.retrieveAllInvestors()
+        );
     }
 
     @Operation(summary = "updating or adding product to the investor by investorId")
@@ -75,6 +73,20 @@ public class InvestorController {
     public void updateProduct(@PathVariable Long investorId, @RequestBody Product product){
         investorService.updateInvestorProduct(investorId, product);
     }
+
+    @Operation(summary = "retrieving products linked to the investor by investor_id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "400", description = "Something is wrong with the request"),
+            @ApiResponse(responseCode = "404", description = "Investor does not exist, check the id")
+
+    })
+    @GetMapping(value = "/investors/{investorId}/products", produces = "application/json")
+    public void retrieveProductLinkedToInvestor(@PathVariable Long investorId){
+        investorService.retrieveProductsById(investorId);
+    }
+
+    /*
 
     @Operation(summary = "request a withdrawal using an investorId & productType")
     @ApiResponses(value = {

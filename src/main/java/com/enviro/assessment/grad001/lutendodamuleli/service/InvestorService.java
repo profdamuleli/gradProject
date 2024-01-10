@@ -11,22 +11,24 @@ import java.util.List;
 
 public interface InvestorService {
 
-    public Investor retrieveInvestorById(Long investorId);
+    Investor retrieveInvestorById(Long investorId);
 
-    public void updateInvestorProduct(Long investorId, Product product);
+    void updateInvestorProduct(Long investorId, Product product);
 
-    public void saveInvestor(Investor investor);
+    void saveInvestor(Investor investor);
 
-    public ResponseEntity<?> withdraw(Long investorId,
+    List<Product> retrieveProductsById(Long investorId);
+
+    ResponseEntity<?> withdraw(Long investorId,
                                    ProductType productType,
                                    WithdrawalRequest request);
 
-    public List<WithdrawalRequest> retrieveWithdrawalsById(Long investorId,
+    List<WithdrawalRequest> retrieveWithdrawalsById(Long investorId,
                                                            ProductType productType);
 
-    public List<Investor> retrieveAllInvestors();
+    List<Investor> retrieveAllInvestors();
 
-    public void getAllWithdrawalsById(Long investorId,
+    void getAllWithdrawalsById(Long investorId,
                                       ProductType productType,
                                       HttpServletResponse response) throws Exception;
 
