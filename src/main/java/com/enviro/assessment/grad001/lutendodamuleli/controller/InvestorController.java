@@ -27,6 +27,17 @@ public class InvestorController {
     private final InvestorService investorService;
     private final EmailSenderService emailSenderService;
 
+
+    @Operation(summary = "save investor record in the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully saved"),
+            @ApiResponse(responseCode = "400", description = "Something is wrong with the request")
+    })
+    @PostMapping(value = "/investors", produces = "application/json")
+    public void createInvestor(@RequestBody Investor investor){
+        investorService.saveInvestor(investor);
+    }
+
     @Operation(summary = "retrieve all investor records in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -51,16 +62,6 @@ public class InvestorController {
     @JsonView(value = {View.Base.class})
     public ResponseEntity<Investor> createInvestor(@PathVariable Long investorId){
         return ResponseEntity.ok(investorService.retrieveInvestorById(investorId));
-    }
-
-    @Operation(summary = "create investor record in the database")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "400", description = "Something is wrong with the request")
-    })
-    @PostMapping(value = "/investors", produces = "application/json")
-    public void createInvestor(@RequestBody Investor investor){
-        investorService.saveInvestor(investor);
     }
 
     @Operation(summary = "updating or adding product to the investor by investorId")
