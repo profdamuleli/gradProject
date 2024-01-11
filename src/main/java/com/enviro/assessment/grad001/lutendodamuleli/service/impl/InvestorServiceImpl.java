@@ -11,22 +11,13 @@ import com.enviro.assessment.grad001.lutendodamuleli.repository.InvestorReposito
 import com.enviro.assessment.grad001.lutendodamuleli.repository.WithdrawalRepository;
 import com.enviro.assessment.grad001.lutendodamuleli.service.EmailSenderService;
 import com.enviro.assessment.grad001.lutendodamuleli.service.InvestorService;
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -167,58 +158,11 @@ public class InvestorServiceImpl implements InvestorService {
     }
 
     @Override
-    public List<WithdrawalRequest> retrieveWithdrawalsById(Long investorId,
-                                                           ProductType productType){
-        Investor investor = retrieveInvestorById(investorId);
-        return null;//investor.getWithdrawalRequest();
-    }
-
-    @Override
     public List<Investor> retrieveAllInvestors() {
         List<Investor> investorList = investorRepository.findAll();
         if(investorList.isEmpty())
             throw new InvestorNotFoundException("No investors available");
         return investorList;
-    }
-
-    @Override
-    public void getAllWithdrawalsById(Long investorId,ProductType productType, HttpServletResponse response)
-            throws Exception {
-        //set file name and content type
-        String filename = "withdrawal-statement.csv";
-
-        response.setContentType("text/csv");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + filename + "\"");
-
-        //create a csv writer
-        StatefulBeanToCsv<WithdrawalRequest> writer = new StatefulBeanToCsvBuilder<WithdrawalRequest>(response.getWriter())
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).withSeparator(CSVWriter.DEFAULT_SEPARATOR).withOrderedResults(false)
-                .build();
-
-
-
-        List<WithdrawalRequest> withdrawalRequestList = new ArrayList<>();
-        if (investorRepository.existsById(investorId)) {
-            Investor investor = retrieveInvestorById(investorId);
-            List<WithdrawalRequest> requestList = withdrawalRequestList/*investor.getWithdrawalRequest()*/;
-
-            if(productType.equals(ProductType.RETIREMENT)){
-                for(WithdrawalRequest request : requestList){
-                    if(request.getProductType().equals(ProductType.RETIREMENT))
-                        withdrawalRequestList.add(request);
-                }
-
-            } else if(productType.equals(ProductType.SAVINGS)){
-                    for(WithdrawalRequest request : requestList){
-                        if(request.getProductType().equals(ProductType.SAVINGS))
-                            withdrawalRequestList.add(request);
-                    }
-            }
-            writer.write(withdrawalRequestList.listIterator());
-        }
-        //Write all withdrawals data to csv file
-        //return withdrawalRequestList;
     }
 
     public boolean calculateAge(LocalDate dob, LocalDate current){

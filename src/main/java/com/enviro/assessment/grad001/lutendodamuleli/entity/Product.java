@@ -1,8 +1,6 @@
 package com.enviro.assessment.grad001.lutendodamuleli.entity;
 
 import com.enviro.assessment.grad001.lutendodamuleli.model.ProductType;
-import com.enviro.assessment.grad001.lutendodamuleli.model.View;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.*;
 

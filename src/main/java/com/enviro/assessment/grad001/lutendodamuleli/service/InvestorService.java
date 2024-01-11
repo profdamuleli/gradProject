@@ -23,13 +23,6 @@ public interface InvestorService {
                                    ProductType productType,
                                    WithdrawalRequest request);
 
-    List<WithdrawalRequest> retrieveWithdrawalsById(Long investorId,
-                                                           ProductType productType);
-
     List<Investor> retrieveAllInvestors();
-
-    void getAllWithdrawalsById(Long investorId,
-                                      ProductType productType,
-                                      HttpServletResponse response) throws Exception;
 
 }
