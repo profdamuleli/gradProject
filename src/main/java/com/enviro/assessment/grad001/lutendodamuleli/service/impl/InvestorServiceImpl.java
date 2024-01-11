@@ -8,7 +8,6 @@ import com.enviro.assessment.grad001.lutendodamuleli.model.MailStructure;
 import com.enviro.assessment.grad001.lutendodamuleli.model.ProductType;
 import com.enviro.assessment.grad001.lutendodamuleli.model.WithdrawalNotice;
 import com.enviro.assessment.grad001.lutendodamuleli.repository.InvestorRepository;
-import com.enviro.assessment.grad001.lutendodamuleli.repository.WithdrawalRepository;
 import com.enviro.assessment.grad001.lutendodamuleli.service.EmailSenderService;
 import com.enviro.assessment.grad001.lutendodamuleli.service.InvestorService;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,6 @@ import java.util.List;
 public class InvestorServiceImpl implements InvestorService {
 
     private final InvestorRepository investorRepository;
-    private final WithdrawalRepository withdrawalRepository;
     private final EmailSenderService emailSenderService;
 
 

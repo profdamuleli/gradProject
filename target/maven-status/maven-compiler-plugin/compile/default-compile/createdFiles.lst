@@ -15,7 +15,5 @@ com/enviro/assessment/grad001/lutendodamuleli/service/InvestorService.class
 com/enviro/assessment/grad001/lutendodamuleli/exception/ErrorObject.class
 com/enviro/assessment/grad001/lutendodamuleli/entity/Investor.class
 com/enviro/assessment/grad001/lutendodamuleli/service/EmailSenderService.class
-com/enviro/assessment/grad001/lutendodamuleli/repository/WithdrawalRepository.class
 com/enviro/assessment/grad001/lutendodamuleli/repository/ProductRepository.class
 com/enviro/assessment/grad001/lutendodamuleli/entity/WithdrawalRequest.class
-com/enviro/assessment/grad001/lutendodamuleli/model/WithdrawalStatus.class
