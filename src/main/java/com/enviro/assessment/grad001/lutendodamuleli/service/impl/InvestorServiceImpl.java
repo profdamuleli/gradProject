@@ -55,11 +55,11 @@ public class InvestorServiceImpl implements InvestorService {
 
     @Override
     public List<Product> retrieveProductsById(Long investorId){
-        return investorRepository.findById(investorId)
-                .get()
-                .getProducts();
+        Investor investor = investorRepository.findById(investorId)
+                .orElseThrow(() -> new InvestorNotFoundException("Investor with ID: "
+                        + investorId + " does not exist"));
+        return investor.getProducts();
     }
-
 
     @Override
     public void saveInvestor(Investor investor) {

@@ -14,7 +14,6 @@ import lombok.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   // @JsonView(value = {View.Base.class})
     private Long productId;
     @Enumerated(EnumType.ORDINAL)
     private ProductType type;

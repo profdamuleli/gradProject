@@ -69,7 +69,7 @@ public class InvestorController {
             @ApiResponse(responseCode = "404", description = "Investor does not exist, check the id")
 
     })
-    @PutMapping(value = "/investors/{investorId}/product", produces = "application/json")
+    @PutMapping(value = "/investors/{investorId}/products", produces = "application/json")
     public void updateProduct(@PathVariable Long investorId, @RequestBody Product product){
         investorService.updateInvestorProduct(investorId, product);
     }
@@ -82,11 +82,9 @@ public class InvestorController {
 
     })
     @GetMapping(value = "/investors/{investorId}/products", produces = "application/json")
-    public void retrieveProductLinkedToInvestor(@PathVariable Long investorId){
-        investorService.retrieveProductsById(investorId);
+    public List<Product> retrieveProductLinkedToInvestor(@PathVariable Long investorId){
+        return investorService.retrieveProductsById(investorId);
     }
-
-    /*
 
     @Operation(summary = "request a withdrawal using an investorId & productType")
     @ApiResponses(value = {
@@ -97,34 +95,8 @@ public class InvestorController {
     })
     @PostMapping(value = "/investors/{investorId}/withdraw/{productType}", produces = "application/json")
     public ResponseEntity<?> withdrawal(@PathVariable Long investorId,
-                           @PathVariable ProductType productType,
-                           @RequestBody WithdrawalRequest request){
+                                        @PathVariable ProductType productType,
+                                        @RequestBody WithdrawalRequest request){
         return investorService.withdraw(investorId, productType, request);
     }
-
-    @Operation(summary = "request all withdrawal belonging to the investor & productType")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "400", description = "Something is wrong with the request"),
-            @ApiResponse(responseCode = "404", description = "Investor does not exist, check the id")
-
-    })
-    @GetMapping(value = "/investors/{investorId}/statement/{productType}", produces = "application/json")
-    public List<WithdrawalRequest> getAllWithdrawalsById(@PathVariable Long investorId,
-                                                         @PathVariable ProductType productType){
-        return investorService.retrieveWithdrawalsById(investorId, productType);
-    }
-
-    @Operation(summary = "link to download a statement for a given investorId & productType")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "400", description = "Something is wrong with the request"),
-            @ApiResponse(responseCode = "404", description = "Investor does not exist, check the id")
-
-    })
-    @GetMapping(value = "/investors/{investorId}/statement/{productType}/download", produces = "application/json")
-    public void downloadStatement(@PathVariable Long investorId,
-                           @PathVariable ProductType productType, HttpServletResponse response) throws Exception{
-        investorService.getAllWithdrawalsById(investorId, productType, response);
-    }*/
 }
