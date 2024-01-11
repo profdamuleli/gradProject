@@ -16,7 +16,6 @@ import java.util.List;
 public class Investor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(value = {View.Base.class})
     private Long id;
     private String firstname;
     private String lastname;
@@ -29,4 +28,7 @@ public class Investor {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name= "fk_invest_id", referencedColumnName = "id")
     private List<Product> products;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name= "fk_invest_id", referencedColumnName = "id")
+    private List<Withdrawal> withdrawals;
 }

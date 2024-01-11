@@ -2,12 +2,14 @@ package com.enviro.assessment.grad001.lutendodamuleli.service.impl;
 
 import com.enviro.assessment.grad001.lutendodamuleli.entity.Investor;
 import com.enviro.assessment.grad001.lutendodamuleli.entity.Product;
+import com.enviro.assessment.grad001.lutendodamuleli.entity.Withdrawal;
 import com.enviro.assessment.grad001.lutendodamuleli.entity.WithdrawalRequest;
 import com.enviro.assessment.grad001.lutendodamuleli.exception.InvestorNotFoundException;
 import com.enviro.assessment.grad001.lutendodamuleli.model.MailStructure;
 import com.enviro.assessment.grad001.lutendodamuleli.model.ProductType;
 import com.enviro.assessment.grad001.lutendodamuleli.model.WithdrawalNotice;
 import com.enviro.assessment.grad001.lutendodamuleli.repository.InvestorRepository;
+import com.enviro.assessment.grad001.lutendodamuleli.repository.WithdrawalRepository;
 import com.enviro.assessment.grad001.lutendodamuleli.service.EmailSenderService;
 import com.enviro.assessment.grad001.lutendodamuleli.service.InvestorService;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 public class InvestorServiceImpl implements InvestorService {
 
     private final InvestorRepository investorRepository;
+    private final WithdrawalRepository withdrawalRepository;
     private final EmailSenderService emailSenderService;
 
 
@@ -58,24 +61,25 @@ public class InvestorServiceImpl implements InvestorService {
     @Override
     public ResponseEntity<?> withdraw(Long investorId, ProductType productType, WithdrawalRequest request) {
         Investor investor = null;
+        Withdrawal withdrawal = null;
 
         try{
             if(investorRepository.existsById(investorId)){
                 investor = retrieveInvestorById(investorId);
-                List<Product> products = retrieveInvestorById(investorId).getProducts();
-                //Check is the product exist within the product linked
+                List<Product> products = investor.getProducts();
+                //Check is the product withdrawing from exist within the product linked
                 if(!products.isEmpty()) {
                     for (Product product : products) {
-                        if (product.getType().equals(productType)) {
-                            if (product.getType().equals(ProductType.RETIREMENT)) {
+                        if (product.getType().name().equals(productType.name())) {
+                            if (product.getType().name().equals(ProductType.RETIREMENT.name())) {
                                 if ((calculateAge(investor.getBirth_date(), LocalDate.now()))
                                         && request.getWithdrawalAmount() < product.getCurrentBalance()
                                         && (allowedPercentageToWithdraw(request, product))) {
-                                    //TODO: create a withdrawal notification for retirement and the status should be in-progress
 
-                                    request.setProductType(ProductType.RETIREMENT);
-                                    request.setWithdrawalDate(LocalDate.now());
-                                    //investor.getWithdrawalRequest().add(request);
+                                    withdrawal.setWithdrawalAmount(request.getWithdrawalAmount());
+                                    withdrawal.setWithdrawalDate(LocalDate.now());
+                                    withdrawal.setAccountNumber(request.getAccountNumber());
+                                    withdrawalRepository.save(withdrawal);
 
                                     WithdrawalNotice withdrawalNotice = withdrawal_notice(product, request);
 
@@ -90,22 +94,21 @@ public class InvestorServiceImpl implements InvestorService {
 
                                     emailSenderService.sendEmail("lutendo.damuleli.f@gmail.com", mailStructure);
 
-                                    investor.getProducts().get(product.getProductId().intValue() - 1)
+/*                                    investor.getProducts().get(product.getProductId().intValue() - 1)
                                             .setCurrentBalance(withdrawalNotice.getClosingBalance());
                                     investor.getProducts().get(product.getProductId().intValue() - 1)
                                             .setPreviousBalance(withdrawalNotice.getCurrentBalance());
                                     request.setClosingAmount(withdrawalNotice.getClosingBalance());
 
 
-                                    investorRepository.save(investor);
+                                    investorRepository.save(investor);*/
 
                                     return null;
                                 }
                             } else {
                                 //TODO: create a withdrawal notification for savings in-progress
-                                request.setProductType(ProductType.SAVINGS);
-                                request.setWithdrawalDate(LocalDate.now());
-                                //investor.getWithdrawalRequest().add(request);
+                                withdrawal.setProductType(ProductType.SAVINGS);
+                                withdrawal.setWithdrawalDate(LocalDate.now());
 
                                 WithdrawalNotice withdrawalNotice = withdrawal_notice(product, request);
 
@@ -120,14 +123,14 @@ public class InvestorServiceImpl implements InvestorService {
 
                                 emailSenderService.sendEmail("lutendo.damuleli.f@gmail.com", mailStructure);
 
-                                investor.getProducts().get(product.getProductId().intValue() - 1)
+/*                                investor.getProducts().get(product.getProductId().intValue() - 1)
                                         .setCurrentBalance(withdrawalNotice.getClosingBalance());
                                 investor.getProducts().get(product.getProductId().intValue() - 1)
                                         .setPreviousBalance(withdrawalNotice.getCurrentBalance());
                                 request.setClosingAmount(withdrawalNotice.getClosingBalance());
 
 
-                                investorRepository.save(investor);
+                                investorRepository.save(investor);*/
 
                                 return null;
                             }
@@ -177,49 +180,4 @@ public class InvestorServiceImpl implements InvestorService {
             return true;
         return false;
     }
-
-/*
-
-
-    public void *//*List<WithdrawalRequest>*//* getAllWithdrawalsById(Long investorId,
-                                                                  ProductType productType,
-                                                                  HttpServletResponse response) throws Exception {
-        //set file name and content type
-        String filename = "withdrawal-statement.csv";
-
-        response.setContentType("text/csv");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + filename + "\"");
-
-        //create a csv writer
-        StatefulBeanToCsv<WithdrawalRequest> writer = new StatefulBeanToCsvBuilder<WithdrawalRequest>(response.getWriter())
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).withSeparator(CSVWriter.DEFAULT_SEPARATOR).withOrderedResults(false)
-                .build();
-
-
-
-        List<WithdrawalRequest> withdrawalRequestList = null;
-        if (investorRepository.existsById(investorId)) {
-            Investor investor = retrieveInvestorById(investorId);
-            withdrawalRequestList = investor.getWithdrawalRequest();
-            writer.write(withdrawalRequestList.listIterator());
-        }
-        //Write all withdrawals data to csv file
-        //return withdrawalRequestList;
-    }
-
-    public boolean calculateAge(LocalDate dob, LocalDate current){
-        Period diff = Period.between(dob, current);
-        if(diff.getYears() > 65)
-            return false;
-        return true;
-    }
-
-    public boolean allowedPercentageToWithdraw(WithdrawalRequest request ,Product product){
-        Double percentageAllowed = product.getCurrentBalance() * 0.9;
-
-        if(request.getWithdrawalAmount() < percentageAllowed)
-            return true;
-        return false;
-    }*/
 }

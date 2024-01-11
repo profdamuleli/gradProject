@@ -93,6 +93,7 @@ public class InvestorController {
     public ResponseEntity<?> withdrawal(@PathVariable Long investorId,
                                         @PathVariable ProductType productType,
                                         @RequestBody WithdrawalRequest request){
+        //TODO: check for empty values:
         return investorService.withdraw(investorId, productType, request);
     }
 }

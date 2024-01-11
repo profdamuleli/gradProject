@@ -1,3 +1,4 @@
+/Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/repository/WithdrawalRepository.java
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/controller/InvestorController.java
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/repository/InvestorRepository.java
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/entity/WithdrawalRequest.java
@@ -13,5 +14,6 @@
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/model/WithdrawalNotice.java
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/service/InvestorService.java
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/exception/InvestorNotFoundException.java
+/Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/entity/Withdrawal.java
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/exception/ErrorObject.java
 /Users/admin/workspace/gradProject/src/main/java/com/enviro/assessment/grad001/lutendodamuleli/LutendodamuleliApplication.java

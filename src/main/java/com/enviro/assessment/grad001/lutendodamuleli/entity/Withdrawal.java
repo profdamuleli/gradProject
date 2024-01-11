@@ -1,24 +1,23 @@
 package com.enviro.assessment.grad001.lutendodamuleli.entity;
 
 import com.enviro.assessment.grad001.lutendodamuleli.model.ProductType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter @Setter @ToString
-public class WithdrawalRequest {
+@Entity
+@Table(name = "withdrawals")
+public class Withdrawal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long withdrawalId;
-    @JsonIgnore
-    @Column(name = "withdraw_from")
-    private ProductType productType;
+    private Long id;
     private Double withdrawalAmount;
-    private Double closingAmount;
+    private ProductType productType;
+    private LocalDate withdrawalDate;
     //banking details paid-to
     private String accountNumber;
     private String name;
